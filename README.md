@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Integracija Solo.com.hr API-ja za izradu računa u Next.js aplikaciji
 
-## Getting Started
+Ovaj projekt prikazuje integraciju Solo.com.hr API-ja za kreiranje računa iz Next.js aplikacije.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Opis
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Solo.com.hr pruža REST API za izdavanje fiskalnih računa, a ovaj primjer demonstrira kako iz frontend Next.js komponente poslati račun putem serverless API rute (`app/api/tvoj-api-endpoint/route.ts`) i prikazati status korisniku.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Parametri i tip podataka:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+| Parametar        | Tip podatka         | Opis                                        | Napomena                          |
+|------------------|--------------------|---------------------------------------------|----------------------------------|
+| `tip_usluge`     | `string`           | Tip usluge (npr. 1 za uslugu, 0 za robu)    | Obavezno                         |
+| `prikazi_porez`  | `string` (0 ili 1) | Prikazati li porez na računu                 | Obavezno                         |
+| `tip_racuna`     | `string`            | Tip računa (npr. "faktura")                   | Obavezno                         |
+| `nacin_placanja` | `string`            | Način plaćanja (npr. "gotovina")              | Obavezno                         |
+| `proizvodi`      | `Array` objekata    | Lista stavki računa                           | Obavezno, najmanje jedna stavka  |
+| `kupac_naziv`    | `string`            | Naziv kupca                                  | Opcionalno                       |
+| `kupac_adresa`   | `string`            | Adresa kupca                                 | Opcionalno                       |
+| `kupac_oib`      | `string`            | OIB kupca                                   | Opcionalno                       |
+| `datum_racuna`   | `string` (ISO datum) | Datum računa                                | Opcionalno                       |
+| `rok_placanja`   | `string` (ISO datum) | Rok plaćanja                                | Opcionalno                       |
+| `datum_isporuke` | `string` (ISO datum) | Datum isporuke                              | Opcionalno                       |
+| `napomene`       | `string`            | Napomene na računu                           | Opcionalno                       |
+| `ponavljanje`    | `string`            | Broj ponavljanja računa                      | Opcionalno                       |
+| `iban`           | `string`            | IBAN broj                                   | Opcionalno                       |
+| `jezik_racuna`   | `string`            | Jezik računa (npr. "HR")                     | Opcionalno                       |
+| `valuta_racuna`  | `string`            | Valuta računa (npr. "HRK")                    | Opcionalno                       |
+| `tecaj`          | `string`            | Tečaj valute                                | Opcionalno                       |
+| `status`         | `string`            | Status računa                               | Opcionalno                       |
+| `fiskalizacija`  | `string` (0 ili 1)   | Treba li fiskalizirati račun                 | Opcionalno                       |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Struktura objekta `usluge` (stavke računa):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Polje          | Tip podatka  | Opis                                    |
+|----------------|--------------|-----------------------------------------|
+| `opis_usluge`  | `string`     | Opis usluge ili proizvoda               |
+| `jed_mjera`    | `string`     | Jedinica mjere (npr. "kom")             |
+| `cijena`       | `string`     | Cijena po jedinici (format nnnn,nn sa zarezom) |
+| `kolicina`     | `number`     | Količina stavke                         |
+| `popust`       | `number`     | Popust u postotku (0 ako nema)          |
+| `porez_stopa`  | `number`     | Porezna stopa (npr. 25)                 |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# nextjs-solo-stripe
