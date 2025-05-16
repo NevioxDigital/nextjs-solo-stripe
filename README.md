@@ -48,4 +48,4 @@ Solo.com.hr pruža REST API za izdavanje fiskalnih računa, a ovaj primjer demon
 
 ---
 
-# nextjs-solo-stripe
+#https://solo.com.hr/api-dokumentacija/izrada-racuna
